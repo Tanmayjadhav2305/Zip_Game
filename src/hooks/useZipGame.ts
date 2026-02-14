@@ -193,6 +193,19 @@ export const useZipGame = (soundEnabled: boolean) => {
         }
     }, [path, level.initialValues, levelNumber, seconds]);
 
+    // CRITICAL: Memory cleanup on level change to prevent performance degradation
+    useEffect(() => {
+        // Cleanup function to prevent memory leaks
+        return () => {
+            // Clear hint state
+            setHintCell(null);
+            // Don't let path grow beyond grid size
+            if (path.length > 25) {
+                setPath(prev => prev.slice(-25));
+            }
+        };
+    }, [levelNumber]); // Run cleanup when level changes
+
     const undo = () => {
         if (path.length > 1 && !isWon) {
             setPath(prev => prev.slice(0, -1));

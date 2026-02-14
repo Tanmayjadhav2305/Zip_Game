@@ -23,11 +23,17 @@ export const Grid: React.FC<GridProps> = ({
     onPointerUp
 }) => {
     const gridRef = useRef<HTMLDivElement>(null);
+    const lastCallTimeRef = useRef<number>(0); // For throttling
 
     const currentHeadId = path.length > 0 ? path[path.length - 1] : -1;
 
-    // Handle pointer move for mobile drag support
+    // Handle pointer move for mobile drag support - THROTTLED for 120Hz
     const handlePointerMove = (e: React.PointerEvent) => {
+        // Throttle to 8ms for 120fps performance (1000ms / 120fps = 8.3ms)
+        const now = performance.now();
+        if (now - lastCallTimeRef.current < 8) return;
+        lastCallTimeRef.current = now;
+
         if (!gridRef.current) return;
 
         // Get grid bounds
@@ -52,12 +58,18 @@ export const Grid: React.FC<GridProps> = ({
         <div
             className="relative w-full aspect-square max-w-md bg-white rounded-[24px] p-2 select-none touch-none shadow-xl ring-1 ring-black/5"
             ref={gridRef}
+            style={{
+                contain: 'layout style paint', // CSS containment for better performance
+            }}
         >
             <div
                 className="relative flex flex-wrap w-full h-full content-start"
                 onPointerUp={onPointerUp}
                 onPointerLeave={onPointerUp}
                 onPointerMove={handlePointerMove}
+                style={{
+                    touchAction: 'none', // Prevent default touch behaviors
+                }}
             >
                 <PathLayer path={path} color={level.color} />
 

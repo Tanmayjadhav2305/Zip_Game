@@ -1,73 +1,102 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-}
-
-/* Mobile Performance Optimizations */
-* {
-  -webkit-tap-highlight-color: transparent;
-  /* Remove tap highlight */
-  -webkit-touch-callout: none;
-  /* Disable callout */
-}
-
-html,
-body {
-  /* Prevent overscroll bounce on mobile */
-  overscroll-behavior: none;
-  -webkit-overflow-scrolling: touch;
-
-  /* Better font rendering on mobile */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-rendering: optimizeLegibility;
-}
-
 body {
   margin: 0;
-  padding: 0;
-  width: 100%;
-  height: 100vh;
-  height: 100svh;
-  /* Use small viewport height for mobile */
-  overflow: hidden;
-}
-
-/* GPU Acceleration for smooth animations */
-#root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #fef3e8;
+  overflow-x: hidden;
+  overscroll-behavior: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  font-smooth: always;
+  text-rendering: optimizeLegibility;
+  -webkit-overflow-scrolling: touch;
   transform: translate3d(0, 0, 0);
   backface-visibility: hidden;
   perspective: 1000px;
 }
 
-/* Optimize touch interactions */
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+/* ============================================
+   CRITICAL 120Hz PERFORMANCE OPTIMIZATIONS
+   ============================================ */
+
+/* Subpixel rendering for high refresh rates */
+* {
+  -webkit-font-smoothing: subpixel-antialiased;
+  -moz-osx-font-smoothing: auto;
+}
+
+/* CSS Containment - prevents layout thrashing */
+.path-layer,
+[class*="motion"],
+svg {
+  contain: layout style paint;
+  content-visibility: auto;
+}
+
+/* Will-change: Only during active interaction */
+.dragging {
+  will-change: transform;
+}
+
+.dragging .path-layer,
+.dragging path {
+  will-change: d, transform;
+}
+
+/* Remove will-change when not dragging */
+:not(.dragging) .path-layer,
+:not(.dragging) path {
+  will-change: auto;
+}
+
+/* High refresh rate scrolling */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Ensure smooth hardware-accelerated transforms */
+[class*="transform"],
+[class*="transition-"],
+[class*="translate"],
 button,
 a {
-  -webkit-user-select: none;
-  user-select: none;
-  touch-action: manipulation;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
-/* Ensure smooth scrolling for modals */
-.modal-scroll {
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
+/* Optimize images and media */
+img,
+video,
+canvas {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
-/* Optimize animations for 60fps+ */
-@media (prefers-reduced-motion: no-preference) {
-  * {
-    will-change: auto !important;
-    /* Let browser optimize */
-  }
+/* Prevent layout shifts */
+img[width],
+img[height] {
+  width: auto;
+  height: auto;
 }
 
-/* High refresh rate optimization */
-@media (min-resolution: 120dpi) {
-  * {
-    image-rendering: -webkit-optimize-contrast;
-  }
+/* Optimize pointer events */
+button,
+a,
+[role="button"] {
+  cursor: pointer;
+  -webkit-touch-callout: none;
 }
