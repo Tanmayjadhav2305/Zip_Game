@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
 import { GRID_SIZE } from '../game/logic';
 
 interface PathLayerProps {
@@ -53,14 +52,14 @@ export const PathLayer: React.FC<PathLayerProps> = ({ path, color }) => {
                     <stop offset="100%" stopColor={pathColor.end} />
                 </linearGradient>
 
-                {/* Optimized drop shadow - reduced blur for better performance */}
+                {/* Simplified drop shadow - minimal for max performance */}
                 <filter id="path-shadow" x="-50%" y="-50%" width="200%" height="200%">
-                    <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodColor="rgba(0,0,0,0.12)" />
+                    <feDropShadow dx="0" dy="1" stdDeviation="1" floodColor="rgba(0,0,0,0.08)" />
                 </filter>
             </defs>
 
-            {/* Main Path - Optimized for mobile performance */}
-            <motion.path
+            {/* Main Path - NO ANIMATION for instant updates */}
+            <path
                 d={pathString}
                 fill="none"
                 stroke={`url(#${gradientId})`}
@@ -68,44 +67,20 @@ export const PathLayer: React.FC<PathLayerProps> = ({ path, color }) => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 filter="url(#path-shadow)"
-                initial={false}
-                animate={{
-                    d: pathString
-                }}
-                transition={{
-                    type: "spring",
-                    stiffness: 600,  // Snappier for touch
-                    damping: 40,     // Reduced oscillation
-                    mass: 0.2,       // Lighter for instant response
-                    velocity: 0,
-                    restDelta: 0.001 // Settle faster
-                }}
                 style={{
                     transform: 'translate3d(0, 0, 0)', // GPU layer
                     willChange: 'auto',
                 }}
             />
 
-            {/* Highlight - Light reflection for depth */}
-            <motion.path
+            {/* Highlight - Light reflection for depth - NO ANIMATION */}
+            <path
                 d={pathString}
                 fill="none"
                 stroke="rgba(255,255,255,0.3)"
                 strokeWidth="7%"
                 strokeLinecap="round"
                 strokeLinejoin="round"
-                initial={false}
-                animate={{
-                    d: pathString
-                }}
-                transition={{
-                    type: "spring",
-                    stiffness: 600,
-                    damping: 40,
-                    mass: 0.2,
-                    velocity: 0,
-                    restDelta: 0.001
-                }}
                 style={{
                     transform: 'translate3d(0, 0, 0)',
                     willChange: 'auto',
