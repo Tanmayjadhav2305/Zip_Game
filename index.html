@@ -3,13 +3,54 @@
 
 <head>
   <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="/icon-192.png" sizes="192x192" />
+  <link rel="icon" type="image/png" href="/icon-512.png" sizes="512x512" />
+  <link rel="apple-touch-icon" href="/icon-192.png" />
+
+  <!-- Viewport -->
   <meta name="viewport"
     content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+  <!-- PWA Meta Tags -->
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <title>LinkedIn Zip Clone</title>
+  <meta name="apple-mobile-web-app-title" content="Zip Game" />
+
+  <!-- Theme Colors -->
+  <meta name="theme-color" content="#ff6b35" />
+  <meta name="msapplication-TileColor" content="#ff6b35" />
+  <meta name="msapplication-navbutton-color" content="#ff6b35" />
+
+  <!-- Description & Keywords for SEO -->
+  <meta name="description"
+    content="Connect numbered dots in order! Progressive puzzle game with smooth 120Hz animations. Play offline, track your streaks, earn badges!" />
+  <meta name="keywords" content="puzzle game, zip game, linkedin game, connect dots, number puzzle, offline game" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Zip Game - LinkedIn Puzzle Clone" />
+  <meta property="og:description"
+    content="Connect numbered dots in order! Progressive puzzle game with buttery smooth animations." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/icon-512.png" />
+
+  <title>Zip Game - Connect the Dots Puzzle</title>
+
+  <!-- Service Worker Registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+          .then(reg => console.log('Service Worker registered'))
+          .catch(err => console.log('Service Worker registration failed:', err));
+      });
+    }
+  </script>
 </head>
 
 <body>
