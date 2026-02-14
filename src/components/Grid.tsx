@@ -26,13 +26,39 @@ export const Grid: React.FC<GridProps> = ({
 
     const currentHeadId = path.length > 0 ? path[path.length - 1] : -1;
 
+    // Handle pointer move for mobile drag support
+    const handlePointerMove = (e: React.PointerEvent) => {
+        if (!gridRef.current) return;
+
+        // Get grid bounds
+        const gridRect = gridRef.current.getBoundingClientRect();
+
+        // Calculate pointer position relative to grid
+        const x = e.clientX - gridRect.left;
+        const y = e.clientY - gridRect.top;
+
+        // Determine which cell (5x5 grid)
+        const col = Math.floor((x / gridRect.width) * 5);
+        const row = Math.floor((y / gridRect.height) * 5);
+
+        // Validate bounds
+        if (col >= 0 && col < 5 && row >= 0 && row < 5) {
+            const cellId = row * 5 + col;
+            onPointerEnter(cellId);
+        }
+    };
 
     return (
         <div
             className="relative w-full aspect-square max-w-md bg-white rounded-[24px] p-2 select-none touch-none shadow-xl ring-1 ring-black/5"
             ref={gridRef}
         >
-            <div className="relative flex flex-wrap w-full h-full content-start" onPointerUp={onPointerUp} onPointerLeave={onPointerUp}>
+            <div
+                className="relative flex flex-wrap w-full h-full content-start"
+                onPointerUp={onPointerUp}
+                onPointerLeave={onPointerUp}
+                onPointerMove={handlePointerMove}
+            >
                 <PathLayer path={path} color={level.color} />
 
                 {grid.map((cell) => (
