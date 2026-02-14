@@ -1,0 +1,73 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+/* Mobile Performance Optimizations */
+* {
+  -webkit-tap-highlight-color: transparent;
+  /* Remove tap highlight */
+  -webkit-touch-callout: none;
+  /* Disable callout */
+}
+
+html,
+body {
+  /* Prevent overscroll bounce on mobile */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+
+  /* Better font rendering on mobile */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  height: 100svh;
+  /* Use small viewport height for mobile */
+  overflow: hidden;
+}
+
+/* GPU Acceleration for smooth animations */
+#root {
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Optimize touch interactions */
+button,
+a {
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+/* Ensure smooth scrolling for modals */
+.modal-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+}
+
+/* Optimize animations for 60fps+ */
+@media (prefers-reduced-motion: no-preference) {
+  * {
+    will-change: auto !important;
+    /* Let browser optimize */
+  }
+}
+
+/* High refresh rate optimization */
+@media (min-resolution: 120dpi) {
+  * {
+    image-rendering: -webkit-optimize-contrast;
+  }
+}
