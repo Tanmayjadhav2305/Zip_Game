@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { getGrid, isValidMove, isLevelComplete } from '../game/logic';
+import { getGrid, isLevelComplete } from '../game/logic';
 import { generateLevel } from '../game/generator';
 import { Cell, Level } from '../game/types';
 import { soundManager } from '../utils/sounds';
