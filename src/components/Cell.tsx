@@ -60,8 +60,10 @@ export const Cell: React.FC<CellProps> = React.memo(({
             {cell.value === null && isHead && (
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
                     <motion.div
-                        layoutId="drag-head"
-                        className="w-8 h-8 rounded-full bg-orange-500 opacity-30"
+                        initial={{ scale: 0.8, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 0.3 }}
+                        exit={{ scale: 0.8, opacity: 0 }}
+                        className="w-8 h-8 rounded-full bg-orange-500"
                         transition={{
                             type: "spring",
                             stiffness: 500,
