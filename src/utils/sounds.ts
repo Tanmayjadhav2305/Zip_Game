@@ -28,11 +28,18 @@ class SoundManager {
         oscillator.frequency.value = frequency;
         oscillator.type = 'sine';
 
-        gainNode.gain.setValueAtTime(volume, this.audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+        const now = this.audioContext.currentTime;
+        gainNode.gain.setValueAtTime(volume, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, now + duration);
 
-        oscillator.start(this.audioContext.currentTime);
-        oscillator.stop(this.audioContext.currentTime + duration);
+        oscillator.start(now);
+        oscillator.stop(now + duration);
+
+        // Cleanup: Disconnect nodes after sound finishes to prevent memory leak
+        setTimeout(() => {
+            oscillator.disconnect();
+            gainNode.disconnect();
+        }, duration * 1000 + 100);
     }
 
     // Move sound - subtle click
