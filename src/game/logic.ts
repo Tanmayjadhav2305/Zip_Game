@@ -67,6 +67,32 @@ export const isValidMove = (
     return true;
 };
 
-export const isLevelComplete = (path: number[]): boolean => {
-    return path.length === GRID_SIZE * GRID_SIZE;
+export const isLevelComplete = (path: number[], grid: Cell[]): boolean => {
+    if (path.length === 0) return false;
+
+    // Get all numbered cells from grid
+    const numberedCells = grid.filter(cell => cell.value !== null);
+    if (numberedCells.length === 0) return false;
+
+    // Get the highest number
+    const maxNumber = Math.max(...numberedCells.map(c => c.value!));
+
+    // Track which numbers we've seen in the path
+    let currentNumber = 0;
+
+    for (const cellId of path) {
+        const cell = grid[cellId];
+        if (cell.value !== null) {
+            // Check if this is the next expected number in sequence
+            if (cell.value === currentNumber + 1) {
+                currentNumber = cell.value;
+            } else if (cell.value !== currentNumber) {
+                // Out of order or revisiting
+                return false;
+            }
+        }
+    }
+
+    // Level is complete if we've reached the highest number
+    return currentNumber === maxNumber;
 };

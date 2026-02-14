@@ -176,7 +176,7 @@ export const useZipGame = (soundEnabled: boolean) => {
 
     // Level completion detection
     useEffect(() => {
-        if (isLevelComplete(path)) {
+        if (isLevelComplete(path, grid)) {
             setIsWon(true);
             setIsActive(false);
             soundManager.playWin();

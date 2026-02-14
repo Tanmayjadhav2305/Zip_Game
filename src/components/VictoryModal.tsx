@@ -37,10 +37,11 @@ export const VictoryModal: React.FC<VictoryModalProps> = ({
                 initial={{ scale: 0.9, opacity: 0, y: 20 }}
                 animate={{ scale: 1, opacity: 1, y: 0 }}
                 transition={{ type: "spring", stiffness: 300, damping: 25, mass: 0.8 }}
-                className="bg-white relative w-full max-w-sm mx-4 rounded-[32px] overflow-hidden shadow-2xl"
+                className="bg-white relative w-full max-w-sm mx-4 rounded-[32px] shadow-2xl"
                 style={{
                     maxHeight: 'calc(100svh - 60px)',
                     overflowY: 'auto',
+                    WebkitOverflowScrolling: 'touch', // Smooth iOS scrolling
                     transform: 'translate3d(0, 0, 0)', // GPU acceleration
                 }}
             >
