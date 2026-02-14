@@ -93,6 +93,9 @@ export const isLevelComplete = (path: number[], grid: Cell[]): boolean => {
         }
     }
 
-    // Level is complete if we've reached the highest number
-    return currentNumber === maxNumber;
+
+    // CRITICAL: Level is complete ONLY if:
+    // 1. We've reached the highest number in correct order
+    // 2. ALL 25 cells are covered (path.length must be 25)
+    return currentNumber === maxNumber && path.length === GRID_SIZE * GRID_SIZE;
 };
